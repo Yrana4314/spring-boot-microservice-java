@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  walgreens-service:
+    image: 'walgreenspharmacy-image'
+    build:
+      context: .
+    container_name: walgreens-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - walgreens-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://walgreens-db:5432/walgreen
+      - SPRING_DATASOURCE_USERNAME=walgreen
+      - SPRING_DATASOURCE_PASSWORD=NYC@22
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  walgreens-db:
+    image: 'postgres:13.1-alpine'
+    container_name: walgreens-db
+    environment:
+      - POSTGRES_USER=walgreen
+      - POSTGRES_PASSWORD=NYC@22
